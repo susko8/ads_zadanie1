@@ -24,9 +24,9 @@ for line in lines:
 sum_of_all_occurrences= sum(full_dictionary.values())
 
 #pomocne pole stringov ktore sa vyskytuju > 50 000 krat
-for k, v in full_dictionary.items():
+for key, v in full_dictionary.items():
     if v > 50000:
-        over_limit_words_array.append(k)
+        over_limit_words_array.append(key)
 
 #stale sa drzime lexikologickeho zoradenia
 over_limit_words_array.sort()
@@ -110,18 +110,41 @@ file.close()
 
 print('---------------------------------------------------')
 print('Priemerny pocet krokov v strome pri vyhladavani prvku v mojom strome = ', e.iat[0,-1])
+print('------------------------------------------')
 
-def construct_binary_bst(root, i, j, last):
-    # if i == j
-    #     return
-    # if last == 0
-    #     print root[i, j] + "is the root"
-    # else if j < last:
-    #     print root[i, j] + "is the left child of" + last
-    # else
-    #     print root[i, j] + "is the right child of" + last
-    # CONSTRUCT-OPTIMAL-BST(root, i, root[i, j] - 1, root[i, j])
-    # CONSTRUCT-OPTIMAL-BST(root, root[i, j] + 1, j, root[i, j])
+# rekurzivny algortimus pre vytvorenie bst z https://walkccc.github.io/CLRS/Chap15/15.5/
+def construct_optimal_bst():
+    k = int(root.iat[1,len(p)-1])
+    print(over_limit_words_array[k],'je korenom stromu')
+
+    left, right = [(1, k - 1,)], [(k + 1, len(p)-1,)]
+    print(left)
+    print(right)
+    p_arr = [k]
+    while p_arr:
+        if left:
+            i, j = left.pop(0)
+            if j < i:
+                print(over_limit_words_array[j],'je lavym potomkom',over_limit_words_array[p_arr[0]])
+            else:
+                k = int(root.iat[i, j])
+                print(over_limit_words_array[k],'je lavym potomkom',over_limit_words_array[p_arr[0]])
+                p_arr[:0] = [k]
+                left.insert(0, (i, k - 1,))
+                right.insert(0, (k + 1, j))
+        else:
+            i, j = right.pop(0)
+            if j < i:
+                print(over_limit_words_array[j],'je pravym potomkom',over_limit_words_array[p_arr.pop(0)])
+            else:
+                k = int(root.iat[i, j])
+                print(over_limit_words_array[k],'je pravym potomkom',over_limit_words_array[p_arr.pop(0)])
+                p_arr[:0] = [k]
+                left.insert(0, (i, k - 1))
+                right.insert(0, (k + 1, j,))
+
+
+construct_optimal_bst()
 
 def pocet_porovnani(word):
     return 0
