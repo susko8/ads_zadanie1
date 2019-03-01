@@ -69,11 +69,6 @@ for key, value in sorted_dictionary.items():
 Q.append(1-sum(P)-sum(Q))
 
 #pomocne vypisy
-# print(P)
-# print(Q)
-# print(len(P))
-# print(len(Q))
-# print(sum(P)+sum(Q))
 file = open('P_Q_values', 'w')
 file.write('P\n')
 file.write(''.join(str(e) for e in P))
@@ -93,8 +88,6 @@ e = pd.DataFrame(np.diag(Q), index=range(1, n+2))
 w = pd.DataFrame(np.diag(Q), index=range(1, n+2))
 root = pd.DataFrame(np.zeros((n, n)), index=range(1, n+1), columns=range(1, n+1))
 
-# print(p)
-# print(q)
 for l in range(1, n+1):
     for i in range(1, n-l+2):
         j = i+l-1
@@ -109,5 +102,26 @@ for l in range(1, n+1):
 print('e',e)
 print('w',w)
 print('r',root)
+
+file = open('OBST_values', 'w')
+file.write('r\n\n')
+file.write(root.to_string())
+file.close()
+
 print('---------------------------------------------------')
 print('Priemerny pocet krokov v strome pri vyhladavani prvku v mojom strome = ', e.iat[0,-1])
+
+def construct_binary_bst(root, i, j, last):
+    # if i == j
+    #     return
+    # if last == 0
+    #     print root[i, j] + "is the root"
+    # else if j < last:
+    #     print root[i, j] + "is the left child of" + last
+    # else
+    #     print root[i, j] + "is the right child of" + last
+    # CONSTRUCT-OPTIMAL-BST(root, i, root[i, j] - 1, root[i, j])
+    # CONSTRUCT-OPTIMAL-BST(root, root[i, j] + 1, j, root[i, j])
+
+def pocet_porovnani(word):
+    return 0
