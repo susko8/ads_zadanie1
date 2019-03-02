@@ -118,6 +118,8 @@ print('---------------------------------------------------')
 print('Priemerny pocet krokov v strome pri vyhladavani prvku v mojom strome = ', e.iat[0, -1])
 print('------------------------------------------')
 
+
+#konverzia dataframu na mapu so suradnicami (x,y) indexovanymi od 1 hore
 root_df = root_df.values
 root = {}
 
@@ -136,7 +138,8 @@ while p:
     if l:
         i, j = l.pop(0)
         if j < i:
-            print("d[%d] is the left child of k[%d]" % (j, p[0]))
+            #print('')
+            pass
         else:
             k = root[(i, j)]
             print("k[%d] is the left child of k[%d]" % (k, p[0]))
@@ -146,7 +149,8 @@ while p:
     else:
         i, j = r.pop(0)
         if j < i:
-            print("d[%d] is the right child of k[%d]" % (j, p.pop(0)))
+            #print('')
+            p.pop(0)
         else:
             k = root[(i, j)]
             print("k[%d] is the right child of k[%d]" % (k, p.pop(0)))
