@@ -76,6 +76,9 @@ file.write('Q\n')
 file.write(''.join(str(e) for e in Q))
 file.close()
 
+P = [0.15, 0.10, 0.05, 0.10, 0.20]
+Q = [0.05, 0.10, 0.05, 0.05, 0.05, 0.10]
+
 #dlzka mojho pola slov nad 50000
 n = len(P)
 
@@ -112,33 +115,33 @@ print('---------------------------------------------------')
 print('Priemerny pocet krokov v strome pri vyhladavani prvku v mojom strome = ', e.iat[0,-1])
 print('------------------------------------------')
 
+root = root.values
+
 # rekurzivny algortimus pre vytvorenie bst z https://walkccc.github.io/CLRS/Chap15/15.5/
 def construct_optimal_bst():
-    k = int(root.iat[1,len(p)-1])
-    print(over_limit_words_array[k],'je korenom stromu')
+    k = int(root[0,len(p)-1])
+    print(k,'je korenom stromu')
 
-    left, right = [(1, k - 1,)], [(k + 1, len(p)-1,)]
-    print(left)
-    print(right)
+    left, right = [(0, k - 1,)], [(k + 1, len(p)-1,)]
     p_arr = [k]
     while p_arr:
         if left:
             i, j = left.pop(0)
             if j < i:
-                print(over_limit_words_array[j],'je lavym potomkom',over_limit_words_array[p_arr[0]])
+                print("Ldummy")
             else:
-                k = int(root.iat[i, j])
-                print(over_limit_words_array[k],'je lavym potomkom',over_limit_words_array[p_arr[0]])
+                k = int(root[i, j])
+                print(k,'je lavym potomkom',p_arr[0])
                 p_arr[:0] = [k]
                 left.insert(0, (i, k - 1,))
                 right.insert(0, (k + 1, j))
         else:
             i, j = right.pop(0)
             if j < i:
-                print(over_limit_words_array[j],'je pravym potomkom',over_limit_words_array[p_arr.pop(0)])
+                print('Rdummy')
             else:
-                k = int(root.iat[i, j])
-                print(over_limit_words_array[k],'je pravym potomkom',over_limit_words_array[p_arr.pop(0)])
+                k = int(root[i, j])
+                print(k,'je pravym potomkom',p_arr.pop(0))
                 p_arr[:0] = [k]
                 left.insert(0, (i, k - 1))
                 right.insert(0, (k + 1, j,))
