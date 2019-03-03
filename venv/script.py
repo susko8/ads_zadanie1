@@ -40,7 +40,7 @@ file = open('sorted_dict', 'w')
 file.write(json.dumps(sorted_dictionary))
 file.close()
 
-# generovanie poli P a Q pre algoritmus
+# generovanie poli P a Q zo suboru
 P = []
 Q = []
 
@@ -70,7 +70,7 @@ for key, value in sorted_dictionary.items():
 # trosku ofajc pri vypocte posledneho prvku
 Q.append(1 - sum(P) - sum(Q))
 
-# pomocne vypisy
+# pomocne vypisy P a Q do vedlajsieho suboru
 file = open('P_Q_values', 'w')
 file.write('P\n')
 file.write(''.join(str(e) for e in P))
@@ -78,6 +78,7 @@ file.write('Q\n')
 file.write(''.join(str(e) for e in Q))
 file.close()
 
+# testovacie vstupy identicke s tymi, ktore boli na prednaske
 # p = [0.15, 0.10, 0.05, 0.10, 0.20]
 # q = [0.05, 0.10, 0.05, 0.05, 0.05, 0.10]
 
