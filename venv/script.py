@@ -118,46 +118,71 @@ print('---------------------------------------------------')
 print('Priemerny pocet krokov v strome pri vyhladavani prvku v mojom strome = ', e.iat[0, -1])
 print('------------------------------------------')
 
-
-#konverzia dataframu na mapu so suradnicami (x,y) indexovanymi od 1 hore
+# konverzia dataframu na mapu so suradnicami (x,y) indexovanymi od 1,1 pre potreby nasledujuceho algoritmu
 root_df = root_df.values
 root = {}
 
-for x in range(0,len(p)):
-    for y in range(0,len(p)):
-        root[(x+1,y+1)] = root_df[x][y]
+for x in range(0, len(p)):
+    for y in range(0, len(p)):
+        root[(x + 1, y + 1)] = root_df[x][y]
 
-# print(root)
-# rekurzivny algortimus pre vytvorenie bst z https://walkccc.github.io/CLRS/Chap15/15.5/
+# algoritmus pre vygenerovanie formy BST z https://github.com/zizzo/optimal-bst
+
+# datova struktura kt. zjedodusene reprezentuje strom ako mapu string --> hlbka
+binary_tree_map = {}
+
+file = open('generated_tree', 'w')
+file.write('Popis vygenerovaneho stromu\n\n')
 
 k = root[(1, len(P))]
-print("k[%d] is the root" % k)
-l, r = [(1, k - 1,)], [(k + 1, len(P),)]
+binary_tree_map[over_limit_words_array[
+    int(k - 1)]] = 1  ### kde je 0 porovnani ??? # ak je koren 0 porovnani tak staci len zmenit tento index na 0
+file.write(over_limit_words_array[int(k - 1)] + ' je korenom stromu\n')
+left, right = [(1, k - 1,)], [(k + 1, len(P),)]
 p = [k]
 while p:
-    if l:
-        i, j = l.pop(0)
+    if left:
+        i, j = left.pop(0)
         if j < i:
-            #print('')
             pass
         else:
             k = root[(i, j)]
-            print("k[%d] is the left child of k[%d]" % (k, p[0]))
+            binary_tree_map[over_limit_words_array[int(k - 1)]] = binary_tree_map[
+                                                                      over_limit_words_array[int(p[0]) - 1]] + 1
+            file.write(over_limit_words_array[int(k - 1)] + ' je lavym potomkom ' + over_limit_words_array[
+                int(p[0] - 1)] + '\n')
             p[:0] = [k]
-            l.insert(0, (i, k - 1,))
-            r.insert(0, (k + 1, j))
+            left.insert(0, (i, k - 1,))
+            right.insert(0, (k + 1, j))
     else:
-        i, j = r.pop(0)
+        i, j = right.pop(0)
         if j < i:
-            #print('')
             p.pop(0)
         else:
             k = root[(i, j)]
-            print("k[%d] is the right child of k[%d]" % (k, p.pop(0)))
+            tmp = p.pop(0)
+            binary_tree_map[over_limit_words_array[int(k - 1)]] = binary_tree_map[over_limit_words_array[
+                int(tmp - 1)]] + 1
+            file.write(over_limit_words_array[int(k - 1)] + ' je pravym potomkom ' + over_limit_words_array[
+                int(tmp - 1)] + '\n')
             p[:0] = [k]
-            l.insert(0, (i, k - 1))
-            r.insert(0, (k + 1, j,))
+            left.insert(0, (i, k - 1))
+            right.insert(0, (k + 1, j,))
+
+file.close()
 
 
 def pocet_porovnani(word):
-    return 0
+    if word not in binary_tree_map:
+        print('Slovo', word, 'nebolo v strome najdene.')
+        return -1
+    print('Pri slove', word, 'prislo k', binary_tree_map[word], 'porovnaniam')
+    return binary_tree_map[word]
+
+
+pocet_porovnani('another')
+pocet_porovnani('however')
+pocet_porovnani('year')
+pocet_porovnani('still')
+pocet_porovnani('get')
+pocet_porovnani('goverment')  ##test neexistujuceho slova v strome
